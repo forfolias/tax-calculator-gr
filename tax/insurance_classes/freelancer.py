@@ -11,5 +11,5 @@ class Freelancer(InsuranceClassGroup):
         InsuranceClass("Category 4", 411.78),
         InsuranceClass("Category 5", 493.46),
         InsuranceClass("Category 6", 642.06),
-        InsuranceClass("Special Category", 142.93),
+        InsuranceClass("Special Category (<5 years)", 142.93),
     )

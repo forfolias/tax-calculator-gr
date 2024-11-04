@@ -7,7 +7,7 @@ from tax.insurance_classes.freelancer import Freelancer
 
 
 class FreelancerEmploymentType(EmploymentTypeBase):
-    title = "Ike"
+    title = "Freelancer"
     calculator = FreelancerCalculator
 
     def __init__(self):
@@ -16,6 +16,7 @@ class FreelancerEmploymentType(EmploymentTypeBase):
         self.annual_gross_salary = None
         self.expenses = None
         self.prepaid_tax = None
+        self.functional_year = None
 
     def input(self, **kwargs):
         super().input(**kwargs)
@@ -38,12 +39,18 @@ class FreelancerEmploymentType(EmploymentTypeBase):
                                    validator=lambda count: count >= 0)
 
         if not self.prepaid_tax:
-            self.expenses = prompt(prompt="Please enter any prepaid tax amount from previous year: ",
-                                   target_type=float, initial_value="0", validator=lambda count: count >= 0)
+            self.prepaid_tax = prompt(prompt="Please enter any prepaid tax amount from previous year: ",
+                                      target_type=float, initial_value="0", validator=lambda count: count >= 0)
+
+        if not self.functional_year:
+            self.functional_year = prompt(prompt="Please enter company's functional number of years: ",
+                                          target_type=int, initial_value="0", validator=lambda count: count >= 0)
 
     def get_calculator(self) -> CalculatorInterface:
         return self.calculator(
             annual_gross_salary=self.annual_gross_salary,
             insurance_class=self.insurance_class,
             expenses=self.expenses,
+            prepaid_tax=self.prepaid_tax,
+            functional_year=self.functional_year,
         )
