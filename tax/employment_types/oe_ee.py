@@ -1,11 +1,11 @@
 from tax.calculators.calculator_interface import CalculatorInterface
-from tax.calculators.ike import IkeCalculator
+from tax.calculators.oe_ee import OeEeCalculator
 from tax.employment_types.business_entity import BusinessEntityEmploymentType
 
 
-class IkeEmploymentType(BusinessEntityEmploymentType):
-    title = "IKE"
-    calculator = IkeCalculator
+class OeEeEmploymentType(BusinessEntityEmploymentType):
+    title = "OE-EE"
+    calculator = OeEeCalculator
 
     def get_calculator_instance(self) -> CalculatorInterface:
         return self.calculator(

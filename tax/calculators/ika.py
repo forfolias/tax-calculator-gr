@@ -2,8 +2,9 @@ from tax.calculators.calculator_interface import CalculatorInterface
 
 
 class IkaCalculator(CalculatorInterface):
-
-    insurance_percentage = 0.13867
+    annual_gross_salary = None
+    salaries_count = None
+    kids_number = None
 
     def __init__(self, annual_gross_salary: float, salaries_count: float, kids_number: int):
         super().__init__(annual_gross_salary)
@@ -11,7 +12,7 @@ class IkaCalculator(CalculatorInterface):
         self.kids_number = kids_number
 
     def get_annual_insurance_cost(self) -> float:
-        return self.annual_gross_salary * self.insurance_percentage
+        return self.annual_gross_salary * 0.13867
 
     def get_annual_tax(self) -> float:
         annual_taxable_income = self.annual_gross_salary - self.get_annual_insurance_cost()
@@ -22,7 +23,6 @@ class IkaCalculator(CalculatorInterface):
         return annual_tax - annual_discount
 
     def get_monthly_net_salary(self) -> float:
-        annual_tax = self.get_annual_tax()
         return self.get_annual_net_salary() / self.salaries_count
 
     def get_annual_net_salary(self) -> float:

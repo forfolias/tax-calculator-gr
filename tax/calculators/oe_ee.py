@@ -1,7 +1,7 @@
 from tax.calculators.calculator_interface import CalculatorInterface
 
 
-class IkeCalculator(CalculatorInterface):
+class OeEeCalculator(CalculatorInterface):
     annual_gross_salary = None
     monthly_insurance_cost = None
     expenses = None
@@ -31,22 +31,16 @@ class IkeCalculator(CalculatorInterface):
     def get_annual_net_salary(self) -> float:
         annual_tax = self.get_annual_tax()
         tax_in_advance = self._get_tax_in_advance(annual_tax) - self.prepaid_tax
-        statutory_reserve = self._get_statutory_reserve(self.annual_gross_salary - (annual_tax + tax_in_advance))
-        annual_undistributed_profit = self.annual_gross_salary - annual_tax - tax_in_advance - statutory_reserve
-        annual_distribution_cost = self._get_dividend_tax(annual_undistributed_profit)
-        standard_costs = self.get_annual_insurance_cost() + self._get_gemi_cost() + self.business_levy_cost
-        return annual_undistributed_profit - annual_distribution_cost - standard_costs
+        standard_costs = self.get_annual_insurance_cost() + self.business_levy_cost + self._get_gemi_cost()
+        return self.annual_gross_salary - annual_tax - tax_in_advance - standard_costs
 
     def _get_tax_in_advance(self, annual_tax) -> float:
-        if self.functional_year <= 1:
-            return annual_tax * 0.5
+        if self.functional_year <= 3:
+            return annual_tax * 0.4
         return annual_tax * 0.8
 
     def _get_gemi_cost(self) -> float:
-        return 100
-
-    def _get_dividend_tax(self, annual_profit) -> float:
-        return annual_profit * 0.05
+        return 80
 
     def _get_statutory_reserve(self, profit) -> float:
         return profit * 0.05
