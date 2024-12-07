@@ -22,7 +22,7 @@ class BusinessEntityEmploymentType(PersonalCompanyEmploymentType):
         from beaupy import select
 
         busyness_levies = BusynessLevy.costs
-        if not self.business_levy_cost:
+        if self.business_levy_cost is None:
             print("Please select the business levy:")
             index = select(
                 options=busyness_levies,

@@ -3,7 +3,7 @@ from tax.costs.cost import Cost
 
 
 class CompanyHealthInsurance(CostGroup):
-    title = "Freelancer"
+    title = "EFKA"
     costs = (
         Cost("Category 1", 238.22),
         Cost("Category 2", 285.87),

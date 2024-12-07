@@ -54,15 +54,15 @@ class PersonalCompanyEmploymentType(EmploymentTypeBase):
         elif isinstance(self.monthly_insurance_cost, (str,)):
             self.monthly_insurance_cost = float(self.monthly_insurance_cost)
 
-        if not self.prepaid_tax:
+        if self.prepaid_tax is None:
             self.prepaid_tax = prompt(prompt="Please enter any prepaid tax amount from previous year: ",
                                       target_type=float, initial_value="0", validator=lambda count: count >= 0)
 
-        if not self.expenses:
+        if self.expenses is None:
             self.expenses = prompt(prompt="Please enter your annual expenses: ", target_type=float, initial_value="0",
                                    validator=lambda count: count >= 0)
 
-        if not self.functional_year:
+        if self.functional_year is None:
             self.functional_year = prompt(prompt="Please enter company's functional number of years: ",
                                           target_type=int, initial_value="0", validator=lambda count: count >= 0)
 

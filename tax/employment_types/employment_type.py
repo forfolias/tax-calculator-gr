@@ -2,6 +2,7 @@ from typing import Self
 
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.employment_types.employment_type_interface import EmploymentTypeInterface
+from tax.exceptions import RequiredPropertyMissing
 
 
 class EmploymentTypeBase(EmploymentTypeInterface):
@@ -21,7 +22,7 @@ class EmploymentTypeBase(EmploymentTypeInterface):
         ]
         for calculator_property in calculator_properties:
             if getattr(self, calculator_property) is None:
-                raise Exception(f"{calculator_property} is required")
+                raise RequiredPropertyMissing(f"{calculator_property} is required")
 
         return self.get_calculator_instance()
 

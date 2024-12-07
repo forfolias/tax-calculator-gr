@@ -1,15 +1,17 @@
 import argparse
+import sys
 from typing import List
 
-
+from tax.costs.company_health_insurance import CompanyHealthInsurance
 from tax.employment_types import available_employment_types
+from tax.exceptions import UnknownEmploymentType
 
 
 def get_employment_type_class(employment_type_name):
     for cls in available_employment_types:
         if cls.title.lower() == employment_type_name.lower():
             return cls
-    raise Exception(f"Unknown employment type: {employment_type_name}")
+    raise UnknownEmploymentType(f"Unknown employment type: {employment_type_name}")
 
 
 def select_employment_types() -> List[str]:
@@ -24,7 +26,7 @@ def select_employment_types() -> List[str]:
     )
 
 
-def main():
+def get_app_parser():
     parser = argparse.ArgumentParser(
         description="Calculate net salary based on annual gross income per employment type."
     )
@@ -43,14 +45,16 @@ def main():
         action="store_true",
         help="Interactive ask for any required missing values"
     )
+    parser.add_argument(
+        "--insurances",
+        "-l",
+        action="store_true",
+        help="Print available insurance costs and exit"
+    )
 
     # Add all employment-types options
     options = {}
     for employment_type in available_employment_types:
-        for k, v in employment_type.calculator.__dict__.items():
-            is_callable = callable(v)
-            if not callable(v) and not k.startswith("__") and not k.startswith("_abc_"):
-                foo = k
         properties = [
             k for k, v in employment_type.calculator.__dict__.items()
             if not callable(v) and not k.startswith("__") and not k.startswith("_abc_")
@@ -65,8 +69,19 @@ def main():
         applies_to = ", ".join(option_data['employment_types'])
         parser.add_argument(f"--{option}", help=f"Applies to: {applies_to}")
 
+    return parser
+
+
+def main():
+    parser = get_app_parser()
+
     args = vars(parser.parse_args())
     args = {key.replace('-', '_'): value for key, value in args.items()}
+
+    if 'insurances' in args and args['insurances']:
+        print(CompanyHealthInsurance.title)
+        [print(f"{cost.title}: {cost.amount}") for cost in CompanyHealthInsurance.costs]
+        sys.exit(0)
 
     # Process employment types
     if not args['employment_type']:

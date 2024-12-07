@@ -63,5 +63,5 @@ You can run the tool in interactive mode in order to make it ask for all necessa
 ```
 
 ## TODO: 
+- [ ] Translatable
 - [ ] Add cli argument to list all required options for the selected employment type
-- [ ] Add a script that will use the [Zenity](https://help.gnome.org/users/zenity/stable/) tool to collect all input in a GUI
