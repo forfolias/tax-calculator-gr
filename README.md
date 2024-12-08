@@ -36,7 +36,7 @@ You can provide all options through the command line:
 You can also use multiple employment types calculations:
 
 ```shell
-./bin/tax-calculator -e ika -e freelancer --annual-gross-salary 50000 --salaries-count 14 --kids-number 1 --expenses 3000 --prepaid-tax 0 --functional-year 1 --monthly-insurance-cost 240 
+./bin/tax-calculator -e ika freelancer --annual-gross-salary 50000 --salaries-count 14 --kids-number 1 --expenses 3000 --prepaid-tax 0 --functional-year 1 --monthly-insurance-cost 238.22
 ```
 
 ### Interactive shell
@@ -59,8 +59,20 @@ pip install -r requirements.txt
 You can run the tool in interactive mode in order to make it ask for all necessary options for the calculations.
 
 ```shell
-./bin/tax-calculator --interactive
+./bin/tax-calculator --user-interface shell
 ```
 
-## TODO: 
-- [ ] Translatable
+## Translations
+
+You can compile translations by running:
+
+```shell
+make compilemessages
+```
+
+Application checks the `LANG` environment variable to select user's language.
+You can force a language prepending the `LANG` environment variable:
+
+```shell
+LANG=el_GR ./bin/tax-calculator -u shell -e ika
+```
