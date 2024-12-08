@@ -1,3 +1,4 @@
+from tax import _
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.calculators.ika import IkaCalculator
 from tax.employment_types.employment_type import EmploymentTypeBase
@@ -7,7 +8,8 @@ from tax.ui.ui_interface import UiInterface
 
 
 class IkaEmploymentType(EmploymentTypeBase):
-    title = "IKA"
+    title = _("IKA")
+    key = "ika"
     calculator = IkaCalculator
     annual_gross_salary = None
     salaries_count = None
@@ -32,7 +34,7 @@ class IkaEmploymentType(EmploymentTypeBase):
         input_data = super().get_input_data()
 
         input_data['annual_gross_salary'] = InputUiComponent(
-            label="Please enter your annual gross salary: ",
+            label=_("Annual gross salary:"),
             placeholder=self.annual_gross_salary if self.annual_gross_salary is not None else "",
             cast=float,
             validator=lambda count: count > 0
@@ -44,13 +46,13 @@ class IkaEmploymentType(EmploymentTypeBase):
             self.salaries_count
         ) if self.salaries_count is not None else 1
         input_data['salaries_count'] = SelectUiComponent(
-            label="Number of annual salaries: ", cast=float,
+            label=_("Number of annual salaries:"), cast=float,
             options=options,
             preselected_index=preselected_index
         )
 
         input_data['kids_number'] = InputUiComponent(
-            label="Number of kids: ",
+            label=_("Number of kids:"),
             placeholder=str(self.kids_number) if self.kids_number is not None else "0",
             cast=int,
             validator=lambda count: count >= 0

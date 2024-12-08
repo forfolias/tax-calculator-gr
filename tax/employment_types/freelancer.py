@@ -1,10 +1,12 @@
+from tax import _
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.calculators.freelancer import FreelancerCalculator
 from tax.employment_types.personal_company import PersonalCompanyEmploymentType
 
 
 class FreelancerEmploymentType(PersonalCompanyEmploymentType):
-    title = "Freelancer"
+    title = _("Freelancer")
+    key = "freelancer"
     calculator = FreelancerCalculator
 
     def get_calculator_instance(self) -> CalculatorInterface:

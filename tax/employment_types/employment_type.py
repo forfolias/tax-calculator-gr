@@ -1,5 +1,6 @@
 from typing import Self
 
+from tax import _
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.employment_types.employment_type_interface import EmploymentTypeInterface
 from tax.exceptions import RequiredPropertyMissing
@@ -8,7 +9,7 @@ from tax.ui.ui_interface import UiInterface
 
 
 class EmploymentTypeBase(EmploymentTypeInterface):
-    protected_properties = ("title", "calculator")
+    protected_properties = ("title", "key", "calculator")
 
     def __init__(self, ui: UiInterface, **kwargs):
         self.ui = ui
@@ -36,7 +37,7 @@ class EmploymentTypeBase(EmploymentTypeInterface):
             if not callable(v) and not k.startswith("__") and not k.startswith("_abc_")
         ]
         for calculator_property in calculator_properties:
-            if getattr(self, calculator_property) is None:
+            if not getattr(self, calculator_property):
                 raise RequiredPropertyMissing(f"{calculator_property} is required")
 
         return self.get_calculator_instance()
@@ -51,6 +52,6 @@ class EmploymentTypeBase(EmploymentTypeInterface):
 
     def get_output_data(self, calculator: CalculatorInterface) -> list[tuple[str, str]]:
         return [
-            ("Annual net income: ", f"{calculator.get_annual_net_salary():.2f}€"),
-            ("Monthly net income: ", f"{calculator.get_monthly_net_salary():.2f}€"),
+            (_("Annual net income:"), f"{calculator.get_annual_net_salary():.2f}€"),
+            (_("Monthly net income:"), f"{calculator.get_monthly_net_salary():.2f}€"),
         ]

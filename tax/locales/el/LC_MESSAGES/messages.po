@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tax-calculator-gr\n"
+"POT-Creation-Date: 2024-12-08 21:48+0200\n"
+"PO-Revision-Date: 2024-12-08 21:49+0200\n"
+"Last-Translator: George Vasilakos <giorg.vasilakos@gmail.com>\n"
+"Language-Team: \n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 3.4.2\n"
+
+msgid "Category 1"
+msgstr "Κατηγορία 1"
+
+msgid "Category 2"
+msgstr "Κατηγορία 2"
+
+msgid "Category 3"
+msgstr "Κατηγορία 3"
+
+msgid "Category 4"
+msgstr "Κατηγορία 4"
+
+msgid "Category 5"
+msgstr "Κατηγορία 5"
+
+msgid "Category 6"
+msgstr "Κατηγορία 6"
+
+msgid "Special Category (<5 years)"
+msgstr "Ειδική κατηγορία (<5 χρόνια)"
+
+msgid "Business levy:"
+msgstr "Τέλος επιτηδεύματος:"
+
+msgid "Annual net income:"
+msgstr "Ετήσιο καθαρό εισόδημα:"
+
+msgid "Monthly net income:"
+msgstr "Μηνιαίο καθαρό εισόδημα:"
+
+msgid "Freelancer"
+msgstr "Ελεύθερος επαγγελματίας"
+
+msgid "IKA"
+msgstr "ΙΚΑ"
+
+msgid "Annual gross salary:"
+msgstr "Μικτός ετήσιος μισθός:"
+
+msgid "Number of annual salaries:"
+msgstr "Ετήσιοι μισθοί:"
+
+msgid "Number of kids:"
+msgstr "Αριθμός παιδιών:"
+
+msgid "IKE"
+msgstr "ΙΚΕ"
+
+msgid "Statutory reserve requirement:"
+msgstr "Υποχρεώσεις τακτικού αποθεματικού:"
+
+msgid "OE-EE"
+msgstr "ΟΕ-ΕΕ"
+
+msgid "Insurance class:"
+msgstr "Κλάση ασφάλισης:"
+
+msgid "Prepaid tax amount from previous year:"
+msgstr "Προκαταβολή φόρου από προηγούμενο έτος:"
+
+msgid "Annual expenses:"
+msgstr "Ετήσια έξοδα:"
+
+msgid "Company's functional number of years:"
+msgstr "Έτη λειτουργίας επιχείρισης:"
+
+msgid "Annual tax:"
+msgstr "Ετήσιος φόρος:"
+
+msgid "Annual insurance cost:"
+msgstr "Ετήσιο κόστος ασφάλισης:"
+
+msgid "Tax in advance:"
+msgstr "Προκαταβολή φόρου:"
+
+msgid "Calculate net salary based on annual gross income per employment type."
+msgstr ""
+"Υπολογισμός καθαρού μισθού βάσει μικτού ετήσιου μισθού ανά τύπο απασχόλησης."
+
+msgid ""
+"Specify employment type. Can be used multiple times. Defaults to '{default}'"
+msgstr ""
+"Ορισμός τύπου απασχόλησης. Μπορεί να χρησιμοποιηθεί πολλαπλές φορές. "
+"Προεπιλογή σε '{default}'"
+
+msgid "Specify the user interface to use. Defaults to '{default}'"
+msgstr "Ορισμός της γραφικής διεπαφής. Προεπιλογή σε '{default}'"
+
+msgid "Print available options for specified employment type(s) and exit"
+msgstr ""
+"Εκτύπωση διαθέσιμων επιλογών για τους επιλεγμένους τύπους απασχόλησης και "
+"έξοδος"
+
+msgid "Command line arguments"
+msgstr "Ορίσματα γραμμής εντολών"
+
+msgid "Interactive shell"
+msgstr "Διαδραστικό τερματικό"
+
+#~ msgid "Please select the business levy:"
+#~ msgstr "Τέλος επιτηδεύματος:"
+
+#~ msgid "Please select the insurance class:"
+#~ msgstr "Κλάση ασφάλισης:"
+
+#~ msgid "Please enter your annual expenses:"
+#~ msgstr "Ετήσια έξοδα:"

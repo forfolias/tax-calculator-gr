@@ -8,3 +8,8 @@ class UnknownUI(Exception):
 
 class RequiredPropertyMissing(Exception):
     pass
+
+
+class InvalidOption(Exception):
+    def __init__(self, message):
+        super().__init__(message)

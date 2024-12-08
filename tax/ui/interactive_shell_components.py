@@ -1,5 +1,6 @@
 from typing import Callable
 
+from tax.exceptions import InvalidOption
 from tax.ui.ui_component import UiComponent, InputTypes
 
 
@@ -46,7 +47,8 @@ class SelectUiComponent(UiComponent):
         for index, option in enumerate(options):
             if option.value == value:
                 return index
-        return 0
+        raise InvalidOption(
+            f"Option '{value}' is not a valid option. Available options are: {", ".join([option.value for option in options])}")
 
     def to_dict(self) -> dict:
         return {

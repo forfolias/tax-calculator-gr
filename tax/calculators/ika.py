@@ -53,7 +53,7 @@ class IkaCalculator(CalculatorInterface):
             elif self.kids_number == 4:
                 return 1340
             else:
-                return 1340 + ((self.kids_number-4)*220)
+                return 1340 + ((self.kids_number - 4) * 220)
         else:
             discount = (annual_taxable_income - 12000) * 0.02
             if self.kids_number == 0:

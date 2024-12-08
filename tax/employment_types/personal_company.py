@@ -1,5 +1,5 @@
+from tax import _
 from tax.calculators.business_calculator_interface import BusinessCalculatorInterface
-from tax.calculators.calculator_interface import CalculatorInterface
 from tax.employment_types.employment_type import EmploymentTypeBase
 from tax.costs.company_health_insurance import CompanyHealthInsurance
 from tax.ui.interactive_shell_components import InputUiComponent, SelectOption, SelectUiComponent
@@ -8,6 +8,7 @@ from tax.ui.ui_interface import UiInterface
 
 class PersonalCompanyEmploymentType(EmploymentTypeBase):
     title = ""
+    key = ""
     calculator = None
 
     def __init__(self, ui: UiInterface, **kwargs):
@@ -42,28 +43,27 @@ class PersonalCompanyEmploymentType(EmploymentTypeBase):
         ) if self.monthly_insurance_cost is not None else 0
 
         input_data['annual_gross_salary'] = InputUiComponent(
-            label="Please enter your annual gross salary: ",
+            label=_("Annual gross salary:"), cast=float,
             placeholder=str(self.annual_gross_salary) if self.annual_gross_salary is not None else None,
-            cast=float,
             validator=lambda count: count > 0
         )
         input_data['monthly_insurance_cost'] = SelectUiComponent(
-            label="Please select the insurance class: ", cast=float,
+            label=_("Insurance class:"), cast=float,
             options=options,
             preselected_index=preselected_index
         )
         input_data['prepaid_tax'] = InputUiComponent(
-            label="Please enter any prepaid tax amount from previous year: ", cast=float,
+            label=_("Prepaid tax amount from previous year:"), cast=float,
             placeholder=self.prepaid_tax if self.prepaid_tax is not None else "0",
             validator=lambda count: count >= 0
         )
         input_data['expenses'] = InputUiComponent(
-            label="Please enter your annual expenses: ", cast=float,
+            label=_("Annual expenses:"), cast=float,
             placeholder=self.expenses if self.expenses is not None else "0",
             validator=lambda count: count >= 0
         )
         input_data['functional_year'] = InputUiComponent(
-            label="Please enter company's functional number of years: ", cast=int,
+            label=_("Company's functional number of years:"), cast=int,
             placeholder=self.functional_year if self.functional_year is not None else "1",
             validator=lambda count: count >= 0)
 
@@ -72,8 +72,8 @@ class PersonalCompanyEmploymentType(EmploymentTypeBase):
     def get_output_data(self, calculator: BusinessCalculatorInterface) -> list[tuple[str, str]]:
         data = super().get_output_data(calculator)
         annual_tax = calculator.get_annual_tax()
-        data.append(("Annual tax: ", f"{annual_tax:.2f}€"))
-        data.append(("Annual insurance cost: ", f"{calculator.get_annual_insurance_cost():.2f}€"))
-        data.append(("Tax in advance: ", f"{calculator.get_tax_in_advance(annual_tax):.2f}€"))
+        data.append((_("Annual tax:"), f"{annual_tax:.2f}€"))
+        data.append((_("Annual insurance cost:"), f"{calculator.get_annual_insurance_cost():.2f}€"))
+        data.append((_("Tax in advance:"), f"{calculator.get_tax_in_advance(annual_tax):.2f}€"))
 
         return data

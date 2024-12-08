@@ -2,25 +2,30 @@ import argparse
 import json
 
 from tax.employment_types import available_employment_types
-from tax.exceptions import UnknownEmploymentType
+from tax.exceptions import UnknownEmploymentType, UnknownUI
 from tax.ui import available_user_interfaces
+from . import setup_translations
+
+_ = setup_translations()
 
 
-def get_employment_type_class(employment_type_name: str):
+def get_employment_type_class(employment_type_key: str):
     for cls in available_employment_types:
-        if cls.title.lower() == employment_type_name.lower():
+        if cls.key == employment_type_key.lower():
             return cls
-    raise UnknownEmploymentType(f"Unknown employment type: {employment_type_name}")
+    raise UnknownEmploymentType(f"Unknown employment type: {employment_type_key}")
+
 
 def get_ui_class(ui_key: str):
     for cls in available_user_interfaces:
-        if cls.key.lower() == ui_key.lower():
+        if cls.key == ui_key.lower():
             return cls
     raise UnknownUI(f"Unknown user interface: {ui_key}")
 
+
 def get_app_parser():
     parser = argparse.ArgumentParser(
-        description="Calculate net salary based on annual gross income per employment type."
+        description=_("Calculate net salary based on annual gross income per employment type.")
     )
 
     parser.add_argument(
@@ -28,22 +33,24 @@ def get_app_parser():
         "-e",
         action="extend",
         nargs="+",
-        choices=[employment_type.title.lower() for employment_type in available_employment_types],
+        choices=[employment_type.key for employment_type in available_employment_types],
         default=None,
-        help="Specify employment type. Can be used multiple times"
+        help=_("Specify employment type. Can be used multiple times. Defaults to '{default}'").format(
+            default=available_employment_types[0].key),
     )
     parser.add_argument(
         "--user-interface",
         "-u",
         choices=[ui.key.lower() for ui in available_user_interfaces],
         default=None,
-        help=f"Specify the user interface to use. Defaults to '{available_user_interfaces[0].key.lower()}'"
+        help=_("Specify the user interface to use. Defaults to '{default}'").format(
+            default=available_user_interfaces[0].key)
     )
     parser.add_argument(
         "--parameters",
         "-p",
         action="store_true",
-        help="Print available options for specified employment type(s) and exit"
+        help=_("Print available options for specified employment type(s) and exit")
     )
 
     # Add all employment-types specific options
@@ -57,7 +64,7 @@ def get_app_parser():
             option = option.replace('_', '-')
             if option not in options:
                 options[option] = {'employment_types': []}
-            options[option]['employment_types'].append(employment_type.title)
+            options[option]['employment_types'].append(employment_type.key)
 
     for option, option_data in options.items():
         applies_to = ", ".join(option_data['employment_types'])
@@ -72,10 +79,10 @@ def main():
 
     # Get employment type names and remove from args
     employment_type_names = list(set(args['employment_type'])) if args['employment_type'] else [
-        available_employment_types[0].title.lower()]
+        available_employment_types[0].key]
     args.pop('employment_type', None)
 
-    ui_key = args['user_interface'] if args['user_interface'] else available_user_interfaces[0].key.lower()
+    ui_key = args['user_interface'] if args['user_interface'] else available_user_interfaces[0].key
     ui = get_ui_class(ui_key)
     args.pop('user_interface', None)
 

@@ -4,8 +4,8 @@ from tax.calculators.calculator_interface import CalculatorInterface
 
 
 class EmploymentTypeInterface(ABC):
-
     title = None
+    key = None
     calculator = None
 
     @abstractmethod

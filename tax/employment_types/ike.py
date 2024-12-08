@@ -1,3 +1,4 @@
+from tax import _
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.calculators.ike import IkeCalculator
 from tax.employment_types.business_entity import BusinessEntityEmploymentType
@@ -6,7 +7,8 @@ from tax.ui.ui_interface import UiInterface
 
 
 class IkeEmploymentType(BusinessEntityEmploymentType):
-    title = "IKE"
+    title = _("IKE")
+    key = "ike"
     calculator = IkeCalculator
 
     def __init__(self, ui: UiInterface, **kwargs):
@@ -23,7 +25,7 @@ class IkeEmploymentType(BusinessEntityEmploymentType):
             options, str(int(self.has_statutory_reserve))
         ) if self.has_statutory_reserve is not None else 1
         input_data['has_statutory_reserve'] = SelectUiComponent(
-            label="Should statutory reserve: ", cast=str,
+            label=_("Statutory reserve requirement:"), cast=str,
             options=options,
             preselected_index=preselected_index,
         )

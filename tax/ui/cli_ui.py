@@ -1,9 +1,10 @@
+from tax import _
 from tax.ui.ui_component import UiComponent
 from tax.ui.ui_interface import UiInterface
 
 
 class CliUi(UiInterface):
-    title = "Command line arguments"
+    title = _("Command line arguments")
     key = "cli"
 
     def collect_input(self, input_data: dict[str, UiComponent]) -> dict:
@@ -16,4 +17,4 @@ class CliUi(UiInterface):
     def output(self, title: str, data: list[tuple[str, str]]) -> None:
         print(f"{title}")
         for line in data:
-            print(f"{line[0]}{line[1]}")
+            print(f"{line[0]} {line[1]}")

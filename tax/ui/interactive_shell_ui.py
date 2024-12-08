@@ -1,13 +1,14 @@
 from beaupy import prompt, select
 from rich import print
 
+from tax import _
 from tax.ui.ui_component import UiComponent, InputTypes
 from tax.ui.interactive_shell_components import InputUiComponent, SelectUiComponent
 from tax.ui.ui_interface import UiInterface
 
 
 class InteractiveShellUi(UiInterface):
-    title = "Interactive shell"
+    title = _("Interactive shell")
     key = "shell"
 
     def collect_input(self, input_data: dict[str, UiComponent]) -> dict:
@@ -20,7 +21,7 @@ class InteractiveShellUi(UiInterface):
     def output(self, title: str, data: list[tuple[str, str]]) -> None:
         print(f"[bold]{title}[/bold]")
         for line in data:
-            print(f"{line[0]}[bold]{line[1]}[/bold]")
+            print(f"{line[0]} [bold]{line[1]}[/bold]")
 
     def render(self, ui_component):
         if ui_component.input_type == InputTypes.Input:
