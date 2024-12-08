@@ -10,9 +10,9 @@ class OeEeEmploymentType(BusinessEntityEmploymentType):
     def get_calculator_instance(self) -> CalculatorInterface:
         return self.calculator(
             annual_gross_salary=float(self.annual_gross_salary),
-            monthly_insurance_cost=self.monthly_insurance_cost,
+            monthly_insurance_cost=float(self.monthly_insurance_cost),
             expenses=float(self.expenses),
             prepaid_tax=float(self.prepaid_tax),
             functional_year=int(self.functional_year),
-            business_levy_cost=self.business_levy_cost,
+            business_levy_cost=float(self.business_levy_cost),
         )

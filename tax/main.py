@@ -1,58 +1,52 @@
 import argparse
-import sys
-from typing import List
+import json
 
-from tax.costs.company_health_insurance import CompanyHealthInsurance
 from tax.employment_types import available_employment_types
 from tax.exceptions import UnknownEmploymentType
+from tax.ui import available_user_interfaces
 
 
-def get_employment_type_class(employment_type_name):
+def get_employment_type_class(employment_type_name: str):
     for cls in available_employment_types:
         if cls.title.lower() == employment_type_name.lower():
             return cls
     raise UnknownEmploymentType(f"Unknown employment type: {employment_type_name}")
 
-
-def select_employment_types() -> List[str]:
-    from beaupy import select_multiple
-
-    employment_types = available_employment_types
-    print("Select employment type:")
-    return select_multiple(
-        options=[employment_type.title for employment_type in employment_types],
-        minimal_count=1,
-        ticked_indices=[0]
-    )
-
+def get_ui_class(ui_key: str):
+    for cls in available_user_interfaces:
+        if cls.key.lower() == ui_key.lower():
+            return cls
+    raise UnknownUI(f"Unknown user interface: {ui_key}")
 
 def get_app_parser():
     parser = argparse.ArgumentParser(
         description="Calculate net salary based on annual gross income per employment type."
     )
 
-    # Adding --employment-type argument
     parser.add_argument(
         "--employment-type",
         "-e",
-        action="append",
+        action="extend",
+        nargs="+",
         choices=[employment_type.title.lower() for employment_type in available_employment_types],
+        default=None,
         help="Specify employment type. Can be used multiple times"
     )
     parser.add_argument(
-        "--interactive",
-        "-i",
-        action="store_true",
-        help="Interactive ask for any required missing values"
+        "--user-interface",
+        "-u",
+        choices=[ui.key.lower() for ui in available_user_interfaces],
+        default=None,
+        help=f"Specify the user interface to use. Defaults to '{available_user_interfaces[0].key.lower()}'"
     )
     parser.add_argument(
-        "--insurances",
-        "-l",
+        "--parameters",
+        "-p",
         action="store_true",
-        help="Print available insurance costs and exit"
+        help="Print available options for specified employment type(s) and exit"
     )
 
-    # Add all employment-types options
+    # Add all employment-types specific options
     options = {}
     for employment_type in available_employment_types:
         properties = [
@@ -74,35 +68,32 @@ def get_app_parser():
 
 def main():
     parser = get_app_parser()
-
     args = vars(parser.parse_args())
+
+    # Get employment type names and remove from args
+    employment_type_names = list(set(args['employment_type'])) if args['employment_type'] else [
+        available_employment_types[0].title.lower()]
+    args.pop('employment_type', None)
+
+    ui_key = args['user_interface'] if args['user_interface'] else available_user_interfaces[0].key.lower()
+    ui = get_ui_class(ui_key)
+    args.pop('user_interface', None)
+
+    # Convert the rest of args to employment type class kwargs
     args = {key.replace('-', '_'): value for key, value in args.items()}
 
-    if 'insurances' in args and args['insurances']:
-        print(CompanyHealthInsurance.title)
-        [print(f"{cost.title}: {cost.amount}") for cost in CompanyHealthInsurance.costs]
-        sys.exit(0)
-
-    # Process employment types
-    if not args['employment_type']:
-        employment_type_names = select_employment_types()
-    else:
-        employment_type_names = args['employment_type']
-        args.pop('employment_type', None)
-
-    interactive = args.pop('interactive', False)
     for employment_type_name in employment_type_names:
         employment_class = get_employment_type_class(employment_type_name)
-        employment_type = employment_class(**args)
+        employment_type = employment_class(ui(), **args)
 
-        if interactive:
-            employment_type.input(**args)
+        if 'parameters' in args and args['parameters']:
+            print(json.dumps({'employment_type': employment_type_name,
+                              'parameters': [{"name": index.replace('_', '-'), **component.to_dict()} for
+                                             index, component in employment_type.get_input_data().items()]}))
+            continue
 
-        calculator = employment_type.get_calculator()
-
-        print(f"Employment type: {employment_class.title}")
-        print(f"Annual net income: {calculator.get_annual_net_salary():.2f}€")
-        print(f"Monthly net income: {calculator.get_monthly_net_salary():.2f}€")
+        employment_type.input(**args)
+        employment_type.output()
 
 
 if __name__ == "__main__":

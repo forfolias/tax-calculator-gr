@@ -2,6 +2,9 @@ class UnknownEmploymentType(Exception):
     pass
 
 
-class RequiredPropertyMissing(Exception):
+class UnknownUI(Exception):
     pass
 
+
+class RequiredPropertyMissing(Exception):
+    pass

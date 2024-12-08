@@ -3,17 +3,32 @@ from typing import Self
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.employment_types.employment_type_interface import EmploymentTypeInterface
 from tax.exceptions import RequiredPropertyMissing
+from tax.ui.ui_component import UiComponent
+from tax.ui.ui_interface import UiInterface
 
 
 class EmploymentTypeBase(EmploymentTypeInterface):
     protected_properties = ("title", "calculator")
+
+    def __init__(self, ui: UiInterface, **kwargs):
+        self.ui = ui
 
     def input(self, **kwargs) -> Self:
         for key, value in kwargs.items():
             if hasattr(self, key) and key not in self.protected_properties and getattr(self, key, None) is None:
                 setattr(self, key, value)
 
+        input_data = self.get_input_data()
+
+        response = self.ui.collect_input(input_data=input_data)
+
+        for element, value in response.items():
+            setattr(self, element, value)
+
         return self
+
+    def get_input_data(self) -> dict[str, UiComponent]:
+        return {}
 
     def get_calculator(self) -> CalculatorInterface:
         calculator_properties = [
@@ -28,3 +43,14 @@ class EmploymentTypeBase(EmploymentTypeInterface):
 
     def get_calculator_instance(self) -> CalculatorInterface:
         return self.calculator()
+
+    def output(self) -> None:
+        calculator = self.get_calculator()
+        data = self.get_output_data(calculator)
+        self.ui.output(self.title, data)
+
+    def get_output_data(self, calculator: CalculatorInterface) -> list[tuple[str, str]]:
+        return [
+            ("Annual net income: ", f"{calculator.get_annual_net_salary():.2f}€"),
+            ("Monthly net income: ", f"{calculator.get_monthly_net_salary():.2f}€"),
+        ]

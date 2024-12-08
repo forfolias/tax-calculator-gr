@@ -64,4 +64,3 @@ You can run the tool in interactive mode in order to make it ask for all necessa
 
 ## TODO: 
 - [ ] Translatable
-- [ ] Add cli argument to list all required options for the selected employment type
