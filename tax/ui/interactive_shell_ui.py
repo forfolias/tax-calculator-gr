@@ -2,8 +2,8 @@ from beaupy import prompt, select
 from rich import print
 
 from tax import _
-from tax.ui.ui_component import UiComponent, InputTypes
-from tax.ui.interactive_shell_components import InputUiComponent, SelectUiComponent
+from tax.ui.ui_component_interface import UiComponentInterface, InputTypes
+from tax.ui.ui_components import InputUiComponent, SelectUiComponent
 from tax.ui.ui_interface import UiInterface
 
 
@@ -11,10 +11,11 @@ class InteractiveShellUi(UiInterface):
     title = _("Interactive shell")
     key = "shell"
 
-    def collect_input(self, input_data: dict[str, UiComponent]) -> dict:
+    def collect_input(self, title: str = None, input_data: list[UiComponentInterface] = list) -> dict:
         response = {}
-        for element, ui_component in input_data.items():
-            response[element] = self.render(ui_component)
+        print(title)
+        for ui_component in input_data:
+            response[ui_component.name] = self.render(ui_component)
 
         return response
 
@@ -23,22 +24,22 @@ class InteractiveShellUi(UiInterface):
         for line in data:
             print(f"{line[0]} [bold]{line[1]}[/bold]")
 
-    def render(self, ui_component):
-        if ui_component.input_type == InputTypes.Input:
+    def render(self, ui_component: UiComponentInterface):
+        if isinstance(ui_component, InputUiComponent):
             return self._render_input(ui_component)
-        elif ui_component.input_type == InputTypes.Select:
+        elif isinstance(ui_component, SelectUiComponent):
             return self._render_select(ui_component)
 
     def _render_input(self, ui_component: InputUiComponent):
         return prompt(
-            prompt=ui_component.label,
+            prompt=ui_component.label.capitalize() + ":",
             target_type=ui_component.cast,
             initial_value=ui_component.placeholder,
             validator=ui_component.validator
         )
 
     def _render_select(self, ui_component: SelectUiComponent):
-        print(ui_component.label)
+        print(ui_component.label.capitalize() + ":")
         selected_index = select(
             options=[option.label for option in ui_component.options],
             cursor_index=ui_component.preselected_index,

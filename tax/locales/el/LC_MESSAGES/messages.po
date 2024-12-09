@@ -16,35 +16,38 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 3.4.2\n"
 
-msgid "Category 1"
-msgstr "Κατηγορία 1"
+msgid "category 1"
+msgstr "κατηγορία 1"
 
-msgid "Category 2"
-msgstr "Κατηγορία 2"
+msgid "category 2"
+msgstr "κατηγορία 2"
 
-msgid "Category 3"
-msgstr "Κατηγορία 3"
+msgid "category 3"
+msgstr "κατηγορία 3"
 
-msgid "Category 4"
-msgstr "Κατηγορία 4"
+msgid "category 4"
+msgstr "κατηγορία 4"
 
-msgid "Category 5"
-msgstr "Κατηγορία 5"
+msgid "category 5"
+msgstr "κατηγορία 5"
 
-msgid "Category 6"
-msgstr "Κατηγορία 6"
+msgid "category 6"
+msgstr "κατηγορία 6"
 
-msgid "Special Category (<5 years)"
-msgstr "Ειδική κατηγορία (<5 χρόνια)"
+msgid "special category (<5 years)"
+msgstr "ειδική κατηγορία (<5 χρόνια)"
 
-msgid "Business levy:"
-msgstr "Τέλος επιτηδεύματος:"
+msgid "business levy"
+msgstr "τέλος επιτηδεύματος"
 
-msgid "Annual net income:"
-msgstr "Ετήσιο καθαρό εισόδημα:"
+msgid "Missing value for '{name}'"
+msgstr "Έλλειψη τιμής για το '{name}'"
 
-msgid "Monthly net income:"
-msgstr "Μηνιαίο καθαρό εισόδημα:"
+msgid "annual net income"
+msgstr "ετήσιο καθαρό εισόδημα"
+
+msgid "monthly net income"
+msgstr "μηνιαίο καθαρό εισόδημα"
 
 msgid "Freelancer"
 msgstr "Ελεύθερος επαγγελματίας"
@@ -52,44 +55,56 @@ msgstr "Ελεύθερος επαγγελματίας"
 msgid "IKA"
 msgstr "ΙΚΑ"
 
-msgid "Annual gross salary:"
-msgstr "Μικτός ετήσιος μισθός:"
+msgid "annual gross salary"
+msgstr "μικτός ετήσιος μισθός"
 
-msgid "Number of annual salaries:"
-msgstr "Ετήσιοι μισθοί:"
+msgid "number of annual salaries"
+msgstr "ετήσιοι μισθοί"
 
-msgid "Number of kids:"
-msgstr "Αριθμός παιδιών:"
+msgid "number of kids"
+msgstr "αριθμός παιδιών"
 
 msgid "IKE"
 msgstr "ΙΚΕ"
 
-msgid "Statutory reserve requirement:"
-msgstr "Υποχρεώσεις τακτικού αποθεματικού:"
+msgid "no"
+msgstr "όχι"
+
+msgid "yes"
+msgstr "ναι"
+
+msgid "statutory reserve requirement"
+msgstr "υποχρεώσεις τακτικού αποθεματικού"
 
 msgid "OE-EE"
 msgstr "ΟΕ-ΕΕ"
 
-msgid "Insurance class:"
-msgstr "Κλάση ασφάλισης:"
+msgid "insurance class"
+msgstr "κλάση ασφάλισης"
 
-msgid "Prepaid tax amount from previous year:"
-msgstr "Προκαταβολή φόρου από προηγούμενο έτος:"
+msgid "prepaid tax amount from previous year"
+msgstr "προκαταβολή φόρου από προηγούμενο έτος"
 
-msgid "Annual expenses:"
-msgstr "Ετήσια έξοδα:"
+msgid "annual expenses"
+msgstr "ετήσια έξοδα"
 
-msgid "Company's functional number of years:"
-msgstr "Έτη λειτουργίας επιχείρισης:"
+msgid "company's functional number of years"
+msgstr "έτη λειτουργίας επιχείρισης"
 
-msgid "Annual tax:"
-msgstr "Ετήσιος φόρος:"
+msgid "annual tax"
+msgstr "ετήσιος φόρος"
 
-msgid "Annual insurance cost:"
-msgstr "Ετήσιο κόστος ασφάλισης:"
+msgid "annual insurance cost"
+msgstr "ετήσιο κόστος ασφάλισης"
 
-msgid "Tax in advance:"
-msgstr "Προκαταβολή φόρου:"
+msgid "tax in advance"
+msgstr "προκαταβολή φόρου"
+
+msgid "Unknown employment type: '{name}'"
+msgstr "Άγνωστος τύπος απασχόλησης: '{name}'"
+
+msgid "Unknown user interface: '{name}'"
+msgstr "Άγνωστη διεπαφή χρήστη: '{name}'"
 
 msgid "Calculate net salary based on annual gross income per employment type."
 msgstr ""
@@ -109,17 +124,30 @@ msgstr ""
 "Εκτύπωση διαθέσιμων επιλογών για τους επιλεγμένους τύπους απασχόλησης και "
 "έξοδος"
 
+msgid "Applies to: {list}"
+msgstr "Ισχύει για: {list}"
+
 msgid "Command line arguments"
 msgstr "Ορίσματα γραμμής εντολών"
+
+msgid "Submit"
+msgstr "Υποβολή"
+
+msgid "Invalid Input"
+msgstr "Μη έγκυρη καταχώριση"
+
+msgid "Invalid input for '{field_name}'"
+msgstr "Μη έγκυρη εισαγωγή για το '{field_name}'"
+
+msgid "Validation Error"
+msgstr "Σφάλμα ελέγχου"
+
+msgid "Validation failed for '{field_name}'"
+msgstr "Απέτυχε ο έλεγχος τιμής για το '{field_name}'"
 
 msgid "Interactive shell"
 msgstr "Διαδραστικό τερματικό"
 
-#~ msgid "Please select the business levy:"
-#~ msgstr "Τέλος επιτηδεύματος:"
-
-#~ msgid "Please select the insurance class:"
-#~ msgstr "Κλάση ασφάλισης:"
-
-#~ msgid "Please enter your annual expenses:"
-#~ msgstr "Ετήσια έξοδα:"
+msgid "Option '{value}' is not valid. Available options are: {options}"
+msgstr ""
+"Η επιλογή '{value}' δεν ειναι έγκυρη. Οι διαθέσιμες επιλογές είναι: {options}"

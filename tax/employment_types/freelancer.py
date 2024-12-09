@@ -9,11 +9,11 @@ class FreelancerEmploymentType(PersonalCompanyEmploymentType):
     key = "freelancer"
     calculator = FreelancerCalculator
 
-    def get_calculator_instance(self) -> CalculatorInterface:
+    def get_calculator(self, **kwargs) -> CalculatorInterface:
         return self.calculator(
-            annual_gross_salary=float(self.annual_gross_salary),
-            monthly_insurance_cost=float(self.monthly_insurance_cost),
-            expenses=float(self.expenses),
-            prepaid_tax=float(self.prepaid_tax),
-            functional_year=int(self.functional_year),
+            annual_gross_salary=float(kwargs['annual_gross_salary']),
+            monthly_insurance_cost=float(kwargs['monthly_insurance_cost']),
+            expenses=float(kwargs['expenses']),
+            prepaid_tax=float(kwargs['prepaid_tax']),
+            functional_year=int(kwargs['functional_year']),
         )

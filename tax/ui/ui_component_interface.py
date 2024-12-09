@@ -8,10 +8,9 @@ class InputTypes(Enum):
     Select = 'select'
 
 
-class UiComponent(ABC):
-    def __init__(self, input_type: InputTypes, label: str = None, cast: Callable = None,
-                 validator: Callable = None):
-        self.input_type = input_type
+class UiComponentInterface(ABC):
+    def __init__(self, name: str = None, label: str = None, cast: Callable = None, validator: Callable = None):
+        self.name = name
         self.label = label
         self.cast = cast
         self.validator = validator

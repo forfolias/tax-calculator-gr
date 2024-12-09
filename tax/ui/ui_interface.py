@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from tax.ui.ui_component import UiComponent
+from tax.ui.ui_component_interface import UiComponentInterface
 
 
 class UiInterface:
@@ -8,7 +8,7 @@ class UiInterface:
     key = None
 
     @abstractmethod
-    def collect_input(self, input_data: dict[str, UiComponent]) -> dict:
+    def collect_input(self, title: str = None, input_data: list[UiComponentInterface] = list) -> dict:
         pass
 
     @abstractmethod

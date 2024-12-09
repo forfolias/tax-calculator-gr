@@ -9,5 +9,5 @@ class EmploymentTypeInterface(ABC):
     calculator = None
 
     @abstractmethod
-    def get_calculator(self) -> CalculatorInterface:
+    def get_calculator(self, **kwargs) -> CalculatorInterface:
         pass

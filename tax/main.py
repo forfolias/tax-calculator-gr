@@ -13,14 +13,14 @@ def get_employment_type_class(employment_type_key: str):
     for cls in available_employment_types:
         if cls.key == employment_type_key.lower():
             return cls
-    raise UnknownEmploymentType(f"Unknown employment type: {employment_type_key}")
+    raise UnknownEmploymentType(_("Unknown employment type: '{name}'").format(name=employment_type_key))
 
 
 def get_ui_class(ui_key: str):
     for cls in available_user_interfaces:
         if cls.key == ui_key.lower():
             return cls
-    raise UnknownUI(f"Unknown user interface: {ui_key}")
+    raise UnknownUI(_("Unknown user interface: '{name}'").format(name=ui_key))
 
 
 def get_app_parser():
@@ -53,22 +53,20 @@ def get_app_parser():
         help=_("Print available options for specified employment type(s) and exit")
     )
 
-    # Add all employment-types specific options
-    options = {}
+    # Add all employment-types specific parameters
+    parameters = {}
     for employment_type in available_employment_types:
-        properties = [
-            k for k, v in employment_type.calculator.__dict__.items()
-            if not callable(v) and not k.startswith("__") and not k.startswith("_abc_")
-        ]
-        for option in properties:
-            option = option.replace('_', '-')
-            if option not in options:
-                options[option] = {'employment_types': []}
-            options[option]['employment_types'].append(employment_type.key)
+        for param in employment_type.get_input_data():
+            if param.name not in parameters:
+                parameters[param.name] = [employment_type.title]
+            else:
+                parameters[param.name].append(employment_type.key)
 
-    for option, option_data in options.items():
-        applies_to = ", ".join(option_data['employment_types'])
-        parser.add_argument(f"--{option}", help=f"Applies to: {applies_to}")
+    for name, employment_types in parameters.items():
+        parser.add_argument(
+            f"--{name.replace('_', '-')}",
+            help=_("Applies to: {list}").format(list=", ".join(employment_types)),
+        )
 
     return parser
 
@@ -91,16 +89,14 @@ def main():
 
     for employment_type_name in employment_type_names:
         employment_class = get_employment_type_class(employment_type_name)
-        employment_type = employment_class(ui(), **args)
 
         if 'parameters' in args and args['parameters']:
             print(json.dumps({'employment_type': employment_type_name,
-                              'parameters': [{"name": index.replace('_', '-'), **component.to_dict()} for
-                                             index, component in employment_type.get_input_data().items()]}))
+                              'parameters': [{"name": component.name.replace('_', '-'), **component.to_dict()} for
+                                             component in employment_class.get_input_data()]}))
             continue
 
-        employment_type.input(**args)
-        employment_type.output()
+        employment_class(ui()).run(**args)
 
 
 if __name__ == "__main__":

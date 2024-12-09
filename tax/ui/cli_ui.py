@@ -1,5 +1,5 @@
 from tax import _
-from tax.ui.ui_component import UiComponent
+from tax.ui.ui_component_interface import UiComponentInterface
 from tax.ui.ui_interface import UiInterface
 
 
@@ -7,10 +7,10 @@ class CliUi(UiInterface):
     title = _("Command line arguments")
     key = "cli"
 
-    def collect_input(self, input_data: dict[str, UiComponent]) -> dict:
+    def collect_input(self, title: str = None, input_data: list[UiComponentInterface] = list) -> dict:
         response = {}
-        for element, ui_component in input_data.items():
-            response[element] = ui_component.get_default_value()
+        for ui_component in input_data:
+            response[ui_component.name] = ui_component.get_default_value()
 
         return response
 

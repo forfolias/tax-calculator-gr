@@ -6,7 +6,7 @@ class UnknownUI(Exception):
     pass
 
 
-class RequiredPropertyMissing(Exception):
+class MissingValue(Exception):
     pass
 
 
