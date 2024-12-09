@@ -76,3 +76,8 @@ You can force a language prepending the `LANG` environment variable:
 ```shell
 LANG=el_GR ./bin/tax-calculator -u shell -e ika
 ```
+
+## Screenshots
+
+![input](screenshots/ika-input.png)
+![output](screenshots/ika-output.png)
