@@ -1,9 +1,9 @@
 import argparse
-import json
+from inspect import signature
 
 from tax.employment_types import available_employment_types
 from tax.exceptions import UnknownEmploymentType, UnknownUI
-from tax.ui import available_user_interfaces
+from tax.ui.apps import available_user_interfaces
 from . import setup_translations
 
 _ = setup_translations()
@@ -32,7 +32,7 @@ def get_app_parser():
         "--employment-type",
         "-e",
         action="extend",
-        nargs="+",
+        nargs="*",
         choices=[employment_type.key for employment_type in available_employment_types],
         default=None,
         help=_("Specify employment type. Can be used multiple times. Defaults to '{default}'").format(
@@ -46,21 +46,18 @@ def get_app_parser():
         help=_("Specify the user interface to use. Defaults to '{default}'").format(
             default=available_user_interfaces[0].key)
     )
-    parser.add_argument(
-        "--parameters",
-        "-p",
-        action="store_true",
-        help=_("Print available options for specified employment type(s) and exit")
-    )
 
     # Add all employment-types specific parameters
     parameters = {}
     for employment_type in available_employment_types:
-        for param in employment_type.get_input_data():
-            if param.name not in parameters:
-                parameters[param.name] = [employment_type.title]
+        params = signature(employment_type.calculator_class.__init__).parameters
+        for param_name, param in params.items():
+            if param_name == "self":
+                continue
+            if param_name not in parameters:
+                parameters[param_name] = [employment_type.title]
             else:
-                parameters[param.name].append(employment_type.key)
+                parameters[param_name].append(employment_type.key)
 
     for name, employment_types in parameters.items():
         parser.add_argument(
@@ -76,8 +73,7 @@ def main():
     args = vars(parser.parse_args())
 
     # Get employment type names and remove from args
-    employment_type_names = list(set(args['employment_type'])) if args['employment_type'] else [
-        available_employment_types[0].key]
+    employment_type_keys = list(set(args['employment_type'])) if args['employment_type'] else []
     args.pop('employment_type', None)
 
     ui_key = args['user_interface'] if args['user_interface'] else available_user_interfaces[0].key
@@ -87,16 +83,8 @@ def main():
     # Convert the rest of args to employment type class kwargs
     args = {key.replace('-', '_'): value for key, value in args.items()}
 
-    for employment_type_name in employment_type_names:
-        employment_class = get_employment_type_class(employment_type_name)
-
-        if 'parameters' in args and args['parameters']:
-            print(json.dumps({'employment_type': employment_type_name,
-                              'parameters': [{"name": component.name.replace('_', '-'), **component.to_dict()} for
-                                             component in employment_class.get_input_data()]}))
-            continue
-
-        employment_class(ui()).run(**args)
+    employment_type_classes = [et(**args) for et in available_employment_types if et.key in employment_type_keys]
+    ui(employment_type_classes).run()
 
 
 if __name__ == "__main__":

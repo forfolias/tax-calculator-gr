@@ -15,6 +15,9 @@ class UiComponentInterface(ABC):
         self.cast = cast
         self.validator = validator
 
+    def __str__(self):
+        return f"{self.name}: {self.label}"
+
     @abstractmethod
     def get_default_value(self):
         pass

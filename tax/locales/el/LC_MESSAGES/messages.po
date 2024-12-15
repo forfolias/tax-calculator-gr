@@ -16,6 +16,9 @@ msgstr ""
 "Generated-By: pygettext.py 1.5\n"
 "X-Generator: Poedit 3.4.2\n"
 
+msgid "business levy"
+msgstr "τέλος επιτηδεύματος"
+
 msgid "category 1"
 msgstr "κατηγορία 1"
 
@@ -24,6 +27,9 @@ msgstr "κατηγορία 2"
 
 msgid "category 3"
 msgstr "κατηγορία 3"
+
+msgid "Health Insurance (EFKA)"
+msgstr "Κοινωνική ασφάλιση (ΕΦΚΑ)"
 
 msgid "category 4"
 msgstr "κατηγορία 4"
@@ -36,9 +42,6 @@ msgstr "κατηγορία 6"
 
 msgid "special category (<5 years)"
 msgstr "ειδική κατηγορία (<5 χρόνια)"
-
-msgid "business levy"
-msgstr "τέλος επιτηδεύματος"
 
 msgid "Missing value for '{name}'"
 msgstr "Έλλειψη τιμής για το '{name}'"
@@ -59,7 +62,7 @@ msgid "annual gross salary"
 msgstr "μικτός ετήσιος μισθός"
 
 msgid "number of annual salaries"
-msgstr "ετήσιοι μισθοί"
+msgstr "αριθμός μισθών"
 
 msgid "number of kids"
 msgstr "αριθμός παιδιών"
@@ -119,19 +122,23 @@ msgstr ""
 msgid "Specify the user interface to use. Defaults to '{default}'"
 msgstr "Ορισμός της γραφικής διεπαφής. Προεπιλογή σε '{default}'"
 
-msgid "Print available options for specified employment type(s) and exit"
-msgstr ""
-"Εκτύπωση διαθέσιμων επιλογών για τους επιλεγμένους τύπους απασχόλησης και "
-"έξοδος"
-
 msgid "Applies to: {list}"
 msgstr "Ισχύει για: {list}"
 
 msgid "Command line arguments"
 msgstr "Ορίσματα γραμμής εντολών"
 
-msgid "Submit"
-msgstr "Υποβολή"
+msgid "Select employment type"
+msgstr "Επιλογή τύπου απασχόλησης"
+
+msgid "OK"
+msgstr "Εντάξει"
+
+msgid "Cancel"
+msgstr "Άκυρο"
+
+msgid "Calculate"
+msgstr "Υπολογισμός"
 
 msgid "Invalid Input"
 msgstr "Μη έγκυρη καταχώριση"
@@ -144,6 +151,9 @@ msgstr "Σφάλμα ελέγχου"
 
 msgid "Validation failed for '{field_name}'"
 msgstr "Απέτυχε ο έλεγχος τιμής για το '{field_name}'"
+
+msgid "Error"
+msgstr "Σφάλμα"
 
 msgid "Interactive shell"
 msgstr "Διαδραστικό τερματικό"

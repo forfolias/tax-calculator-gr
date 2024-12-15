@@ -1,35 +1,14 @@
-from tax.calculators.business_calculator_interface import BusinessCalculatorInterface
+from tax.calculators.business_calculator import BusinessCalculator
+from tax.costs.business_levy import BusinessLevy
 
 
-class IkeCalculator(BusinessCalculatorInterface):
-    annual_gross_salary = None
-    monthly_insurance_cost = None
-    expenses = None
-    prepaid_tax = None
-    functional_year = None
-    business_levy_cost = None
-    has_statutory_reserve = False
+class IkeCalculator(BusinessCalculator):
 
-    def __init__(self, annual_gross_salary: float, monthly_insurance_cost: float, expenses: float = 0,
-                 prepaid_tax: float = 0, functional_year: int = 0, business_levy_cost: float = 0,
-                 has_statutory_reserve: bool = False):
-        super().__init__(annual_gross_salary)
-        self.monthly_insurance_cost = monthly_insurance_cost
-        self.expenses = expenses
-        self.prepaid_tax = prepaid_tax
-        self.functional_year = functional_year
-        self.business_levy_cost = business_levy_cost
+    def __init__(self, annual_gross_salary: float = 0.0, monthly_insurance_cost: float = None, expenses: float = 0.0,
+                 prepaid_tax: float = 0.0, functional_year: int = 0, business_levy_cost: float = None, has_statutory_reserve: bool = False):
+        business_levy_cost = business_levy_cost if business_levy_cost is not None else BusinessLevy.costs[2].amount
+        super().__init__(annual_gross_salary, monthly_insurance_cost, expenses, prepaid_tax, functional_year, business_levy_cost)
         self.has_statutory_reserve = has_statutory_reserve
-
-    def get_annual_insurance_cost(self) -> float:
-        return self.monthly_insurance_cost * 12
-
-    def get_annual_tax(self) -> float:
-        annual_taxable_income = self.annual_gross_salary - self.expenses
-        return annual_taxable_income * 0.22
-
-    def get_monthly_net_salary(self) -> float:
-        return self.get_annual_net_salary() / 12
 
     def get_annual_net_salary(self) -> float:
         annual_tax = self.get_annual_tax()
@@ -48,7 +27,8 @@ class IkeCalculator(BusinessCalculatorInterface):
     def get_gemi_cost(self) -> float:
         return 100
 
-    def get_dividend_tax(self, annual_profit) -> float:
+    @staticmethod
+    def get_dividend_tax(annual_profit) -> float:
         return annual_profit * 0.05
 
     def get_statutory_reserve(self, profit) -> float:

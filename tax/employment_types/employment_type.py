@@ -1,38 +1,39 @@
+from inspect import signature
+
 from tax import _
 from tax.calculators.calculator_interface import CalculatorInterface
 from tax.employment_types.employment_type_interface import EmploymentTypeInterface
 from tax.exceptions import MissingValue
-from tax.ui.ui_component_interface import UiComponentInterface
-from tax.ui.ui_interface import UiInterface
+from tax.ui.components.ui_component_interface import UiComponentInterface
 
 
 class EmploymentTypeBase(EmploymentTypeInterface):
+    def __init__(self, **kwargs):
+        self.parameters = {}
+        params = signature(self.calculator_class.__init__).parameters
+        for param_name, param in params.items():
+            if param_name == "self":
+                continue
 
-    def __init__(self, ui: UiInterface):
-        self.ui = ui
+            if param_name in kwargs and kwargs[param_name] is not None:
+                self.parameters[param_name] = kwargs[param_name]
+            else:
+                self.parameters[param_name] = None
 
-    def run(self, **kwargs):
-        input_data = self.get_input_data(**kwargs)
-
-        response = self.ui.collect_input(title=self.title, input_data=input_data)
-
-        for key, value in response.items():
-            if value is None:
-                label = next((ui.label for ui in input_data if key == ui.name), key)
-                raise MissingValue(_("Missing value for '{name}'").format(name=label))
-
-        calculator = self.get_calculator(**response)
-        output_data = self.get_output_data(calculator)
-        self.ui.output(self.title, output_data)
-
-    @staticmethod
-    def get_input_data(**kwargs) -> list[UiComponentInterface]:
+    def get_input_data(self) -> list[UiComponentInterface]:
         return []
 
-    def get_calculator(self, **kwargs) -> CalculatorInterface:
-        return self.calculator(**kwargs)
+    def validate_parameters(self) -> None:
+        for param_name, param in self.parameters.items():
+            if param is None:
+                raise MissingValue(_("Missing value for '{name}'").format(name=param_name))
 
-    def get_output_data(self, calculator: CalculatorInterface) -> list[tuple[str, str]]:
+    def get_calculator(self) -> CalculatorInterface:
+        self.validate_parameters()
+        return self.calculator_class(**self.parameters)
+
+    def get_output_data(self) -> list[tuple[str, str]]:
+        calculator = self.get_calculator()
         return [
             (_("annual net income"), f"{calculator.get_annual_net_salary():.2f}€"),
             (_("monthly net income"), f"{calculator.get_monthly_net_salary():.2f}€"),

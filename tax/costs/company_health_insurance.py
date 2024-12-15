@@ -4,7 +4,7 @@ from tax.costs.cost import Cost
 
 
 class CompanyHealthInsurance(CostGroup):
-    title = "EFKA"
+    title = _("Health Insurance (EFKA)")
     costs = (
         Cost(_("category 1"), 238.22),
         Cost(_("category 2"), 285.87),

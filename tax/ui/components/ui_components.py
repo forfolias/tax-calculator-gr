@@ -2,7 +2,7 @@ from typing import Callable
 
 from tax import _
 from tax.exceptions import InvalidOption
-from tax.ui.ui_component_interface import UiComponentInterface, InputTypes
+from tax.ui.components.ui_component_interface import UiComponentInterface, InputTypes
 
 
 class InputUiComponent(UiComponentInterface):

@@ -2,8 +2,9 @@ from abc import ABC, abstractmethod
 
 
 class CalculatorInterface(ABC):
-    def __init__(self, annual_gross_salary: float):
-        self.annual_gross_salary = annual_gross_salary
+    @abstractmethod
+    def __init__(self, **kwargs):
+        pass
 
     @abstractmethod
     def get_annual_tax(self) -> float:

@@ -1,12 +1,8 @@
-from tax.calculators.calculator_interface import CalculatorInterface
+from tax.calculators.basic_calculator import BasicCalculator
 
 
-class IkaCalculator(CalculatorInterface):
-    annual_gross_salary = None
-    salaries_count = None
-    kids_number = None
-
-    def __init__(self, annual_gross_salary: float, salaries_count: float, kids_number: int):
+class IkaCalculator(BasicCalculator):
+    def __init__(self, annual_gross_salary: float = 0.0, salaries_count: float = 14.0, kids_number: int = 0):
         super().__init__(annual_gross_salary)
         self.salaries_count = salaries_count
         self.kids_number = kids_number
@@ -18,7 +14,7 @@ class IkaCalculator(CalculatorInterface):
         annual_taxable_income = self.annual_gross_salary - self.get_annual_insurance_cost()
 
         annual_discount = self._get_annual_tax_discount(annual_taxable_income)
-        annual_tax = self._get_initial_annual_tax(annual_taxable_income)
+        annual_tax = self.get_initial_annual_tax(annual_taxable_income)
 
         return annual_tax - annual_discount
 
@@ -28,7 +24,8 @@ class IkaCalculator(CalculatorInterface):
     def get_annual_net_salary(self) -> float:
         return self.annual_gross_salary - self.get_annual_insurance_cost() - self.get_annual_tax()
 
-    def _get_initial_annual_tax(self, annual_taxable_income):
+    @staticmethod
+    def get_initial_annual_tax(annual_taxable_income):
         if annual_taxable_income <= 10000:
             return annual_taxable_income * 0.09
         elif annual_taxable_income <= 20000:
@@ -55,16 +52,19 @@ class IkaCalculator(CalculatorInterface):
             else:
                 return 1340 + ((self.kids_number - 4) * 220)
         else:
-            discount = (annual_taxable_income - 12000) * 0.02
-            if self.kids_number == 0:
-                return 777 - discount
-            elif self.kids_number == 1:
-                return 810 - discount
-            elif self.kids_number == 2:
-                return 900 - discount
-            elif self.kids_number == 3:
-                return 1120 - discount
-            elif self.kids_number == 4:
-                return 1340 - discount
-            else:
-                return (1340 + ((self.kids_number - 4) * 220)) - discount
+            return self._get_discounted_annual_tax(annual_taxable_income)
+
+    def _get_discounted_annual_tax(self, annual_taxable_income):
+        discount = (annual_taxable_income - 12000) * 0.02
+        if self.kids_number == 0:
+            return 777 - discount
+        elif self.kids_number == 1:
+            return 810 - discount
+        elif self.kids_number == 2:
+            return 900 - discount
+        elif self.kids_number == 3:
+            return 1120 - discount
+        elif self.kids_number == 4:
+            return 1340 - discount
+        else:
+            return (1340 + ((self.kids_number - 4) * 220)) - discount

@@ -6,6 +6,6 @@ from tax.employment_types.oe_ee import OeEeEmploymentType
 available_employment_types = (
     IkaEmploymentType,
     FreelancerEmploymentType,
-    IkeEmploymentType,
     OeEeEmploymentType,
+    IkeEmploymentType,
 )
